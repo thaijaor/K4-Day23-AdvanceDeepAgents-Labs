@@ -8,6 +8,21 @@ SOURCES = '/tmp/work/research/sources.json'
 PROVENANCE = '/tmp/work/research/provenance.json'
 
 
+def compile_url_citations(report, sources):
+    """Bind draft citations to exact source URLs before integer renumbering."""
+    numbers, problems = {}, []
+    for source in sources:
+        if isinstance(source.get('n'), int) and not isinstance(source['n'], bool):
+            numbers.setdefault(source.get('url'), source['n'])
+    def replace(match):
+        url = match[1]
+        if url not in numbers:
+            problems.append('citation URL is missing from sources.json: '+url)
+            return match[0]
+        return '['+str(numbers[url])+']'
+    return re.sub(r'\[@(https?://[^\]\s]+)\]', replace, report), problems
+
+
 def reliable_title(value):
     return isinstance(value,str) and 0 < len(value.strip()) <= 300 and value.strip().casefold() not in {'n/a','na','untitled','unknown','no title'}
 
@@ -41,7 +56,8 @@ def normalize(sources, provenance):
         if reliable_title(record.get('title')):
             old_title = source.get('title') or ''
             clean_title = lambda value: ' '.join(re.findall(r'\w+', value.lower()))
-            subtitle_extension = record['title'].casefold().startswith(old_title.casefold().rstrip()+':')
+            subtitle_extension = (record['title'].casefold().startswith(old_title.casefold().rstrip()+':') or
+                                  old_title.casefold().startswith(record['title'].casefold().rstrip()+':'))
             if reliable_title(old_title) and not subtitle_extension and SequenceMatcher(None, clean_title(old_title), clean_title(record['title'])).ratio() < .65:
                 problems.append(f"source [{source.get('n')}] title mismatch: supplied {old_title!r}, retrieved {record['title']!r}. Metadata is now corrected; verify and repair EVERY body claim citing this source against its actual retrieved content, or remove unsupported claims. Do not merely rename the reference.")
             entry['title'] = record['title']
@@ -67,6 +83,8 @@ def main():
     try:
         with open(report_path,encoding='utf-8') as f:
             report=f.read()
+        report, citation_problems = compile_url_citations(report, repaired)
+        problems.extend(citation_problems)
         for heading in ('TL;DR','Background','Trends and open problems'):
             report=re.sub(r'(?im)^##[ \t]+(?:\d+[.)][ \t]+)?(?:\*\*)?'+re.escape(heading)+r'(?:\*\*)?[ \t]*$', '## '+heading, report)
         with open(report_path,'w',encoding='utf-8') as f:

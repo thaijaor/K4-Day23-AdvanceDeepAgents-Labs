@@ -50,6 +50,8 @@ def check(report_text, sources, provenance=None):
     body = text[:headings[0].start()] if headings else text
     references = text[headings[0].end():] if headings else ""
     cited = set()
+    if re.search(r'\[@https?://', body):
+        problems.append('uncompiled URL citations: run normalize_sources.py before finalization')
     for match in re.finditer(r"\[(\d+(?:\s*[,–-]\s*\d+)*)\](?!\s*\()", body):
         for part in re.split(r"\s*,\s*", match[1]):
             span = re.fullmatch(r"(\d+)\s*[–-]\s*(\d+)", part)
@@ -111,6 +113,8 @@ def check(report_text, sources, provenance=None):
         word_count = len(body.split())
         if word_count < 800:
             problems.append(f'survey body is too short: currently {word_count} words, at least {800-word_count} more needed for the 800-word minimum. Develop the 1200-1800 word survey requested by the lead prompt, comparing retrieved evidence, concrete mechanisms and limitations. Use execute to count words before returning. Do not pad or invent claims.')
+        if word_count > 1800:
+            problems.append(f'survey body exceeds the requested length: {word_count} words, maximum 1800. Condense comparisons, remove repetitive passages and unrequested numerical examples, and preserve cited mechanisms and limitations. Recount words before returning.')
     return problems
 
 

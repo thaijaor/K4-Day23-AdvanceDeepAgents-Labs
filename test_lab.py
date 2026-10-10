@@ -330,6 +330,24 @@ class LabTests(unittest.TestCase):
 
 
 class VertexAuthTests(unittest.TestCase):
+    def test_url_citations_bind_to_source_identity_not_array_order(self):
+        from normalize_sources import compile_url_citations
+        sources=[{'n':1,'url':'https://example.org/other'},{'n':12,'url':'https://example.org/ppo'}]
+        result, errors=compile_url_citations('PPO claim [@https://example.org/ppo].',sources)
+        self.assertEqual(result,'PPO claim [12].')
+        self.assertEqual(errors,[])
+        result, errors=compile_url_citations('Unknown [@https://example.org/missing]',sources)
+        self.assertTrue(errors)
+        self.assertIn('[@https://example.org/missing]',result)
+        report='Claim [12] and uncompiled [@https://example.org/missing].\n## References\n[12] PPO. https://example.org/ppo\n'
+        self.assertTrue(any('uncompiled URL' in error for error in check(report,[sources[1]])))
+
+    def test_provenance_gate_enforces_requested_survey_length(self):
+        sources=[{'n':1,'url':'https://example.org/one','source':'web'}]
+        report='# Survey\n## TL;DR\n- Claim [1]\n## Background\n'+'evidence '*1810+'\n## Theme 1\n## Theme 2\n## Theme 3\n## Trends and open problems\n## References\n[1] Source. https://example.org/one\n'
+        errors=check(report,sources,[{'source':'web','url':'https://example.org/one'}])
+        self.assertTrue(any('exceeds the requested length' in error for error in errors))
+
     def test_token_estimate_excludes_opaque_signature_without_mutating_request(self):
         from openai_adapter import estimate_input_tokens
         signature = 'opaque' * 10000
