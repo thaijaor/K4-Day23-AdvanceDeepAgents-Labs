@@ -10,6 +10,8 @@ from collections import Counter
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from langchain_core.callbacks import BaseCallbackHandler
+
 from agents import FINALIZER_PATH, NOTES_DIR, REPORT_PATH, SOURCES_PATH, VALIDATOR_PATH, WORKDIR, build_lead_agent
 from check_citations import check
 from model import make_model
@@ -24,6 +26,13 @@ VALIDATOR_SOURCE = ROOT / "check_citations.py"
 FINALIZER_SOURCE = ROOT / "finalize_citations.py"
 NORMALIZER_PATH = f"{WORKDIR}/research/normalize_sources.py"
 FAMILIES = {"arxiv", "hf-daily", "hf-search", "web"}
+
+
+class SourceProgress(BaseCallbackHandler):
+    def on_tool_start(self, serialized, input_str, **kwargs):
+        name = (serialized or {}).get('name')
+        if name in {'arxiv_search', 'hf_daily_papers', 'hf_search_papers', 'web_search', 'web_fetch'}:
+            print(f'[source] {name}', flush=True)
 
 
 def slugify(topic):
@@ -210,7 +219,7 @@ def main(topic, feedback=None, draft=None):
                     '<input_report>\n' + report_bytes.decode('utf-8') + '\n</input_report>\n'
                     '<input_sources>\n' + source_bytes.decode('utf-8') + '\n</input_sources>')
             for revision in range(3):
-                for state in agent.stream({"messages": request}, config={"recursion_limit": 1000}, stream_mode="values"):
+                for state in agent.stream({"messages": request}, config={"recursion_limit": 1000, "callbacks":[SourceProgress()]}, stream_mode="values"):
                     messages = state["messages"]
                     for msg in messages:
                         identity = getattr(msg, "id", None) or id(msg)

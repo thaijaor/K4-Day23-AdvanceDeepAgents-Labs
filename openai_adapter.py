@@ -22,6 +22,17 @@ from langchain_openai import ChatOpenAI
 from vertex_auth import vertex_token_provider
 
 
+def estimate_input_tokens(payload):
+    """Exclude opaque provider signatures, which are metadata rather than model text."""
+    def text_fields(value):
+        if isinstance(value, dict):
+            return {key: text_fields(item) for key, item in value.items() if key != 'thought_signature'}
+        if isinstance(value, list):
+            return [text_fields(item) for item in value]
+        return value
+    return len(json.dumps(text_fields(payload), ensure_ascii=False, default=str)) // 3 + 1
+
+
 class TokenWindow:
     """A shared rolling minute window for estimated input tokens."""
     def __init__(self):
@@ -48,10 +59,13 @@ class OpenAICompatibleChat(ChatOpenAI):
     _token_window: TokenWindow = PrivateAttr(default_factory=TokenWindow)
 
     def _reserve_tokens(self, messages, stop, kwargs):
+        limit = int(os.getenv('LAB_INPUT_TOKENS_PER_MINUTE', '0'))
+        if limit <= 0:
+            return
         payload = self._get_request_payload(messages, stop=stop, **kwargs)
         # Conservative estimate for English evidence plus tool schemas; actual counts are recorded separately.
-        estimate = len(json.dumps(payload, ensure_ascii=False, default=str)) // 3 + 1
-        self._token_window.reserve(estimate, int(os.getenv('LAB_INPUT_TOKENS_PER_MINUTE', '0')))
+        estimate = estimate_input_tokens(payload)
+        self._token_window.reserve(estimate, limit)
 
     @staticmethod
     def _quota_delay(exc):

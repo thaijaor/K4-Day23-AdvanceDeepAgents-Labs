@@ -33,6 +33,8 @@ Alternatively, use the provider configuration in `.env.example`, or `SANDBOX=day
 
 For Vertex AI, set `LAB_VERTEX_CREDENTIALS` to a service-account JSON path on the host, `LAB_VERTEX_PROJECT`, `LAB_VERTEX_LOCATION=global`, and `LAB_MODEL=google/<compatible Gemini model>`. Leave `LAB_API_KEY` blank. `vertex_auth.py` configures the OpenAI-compatible endpoint and supplies an OAuth callback that refreshes expired tokens automatically. Neither credentials nor access tokens are uploaded to the sandbox. See [Google's OpenAI compatibility guide](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/start/openai).
 
+Choose pacing for the configured project; `LAB_INPUT_TOKENS_PER_MINUTE=0` disables the optional local token window. Opaque thought signatures are excluded from its estimate but preserved in API requests. Source-tool progress is logged by name without arguments or credentials.
+
 Optional `LAB_RESEARCH_MODEL` and `LAB_CHECKER_MODEL` select separate tool-calling models for the two subagent roles using the same endpoint/key. Unset them to inherit the lead model. Metadata records configured role overrides; each model's provider quota still applies.
 
 ## Run

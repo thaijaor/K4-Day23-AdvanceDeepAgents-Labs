@@ -330,6 +330,14 @@ class LabTests(unittest.TestCase):
 
 
 class VertexAuthTests(unittest.TestCase):
+    def test_token_estimate_excludes_opaque_signature_without_mutating_request(self):
+        from openai_adapter import estimate_input_tokens
+        signature = 'opaque' * 10000
+        payload = {'messages':[{'content':'retrieved evidence', 'extra_content':
+                   {'google':{'thought_signature':signature}}}]}
+        self.assertLess(estimate_input_tokens(payload), 100)
+        self.assertEqual(payload['messages'][0]['extra_content']['google']['thought_signature'], signature)
+
     def test_oauth_callback_reuses_token_and_refreshes_when_expired(self):
         import vertex_auth
         credential = Mock(valid=False, token='test-token')
