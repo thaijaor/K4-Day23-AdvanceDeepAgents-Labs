@@ -1,0 +1,154 @@
+[
+  {
+    "n": 1,
+    "id": "1710.00421",
+    "url": "https://huggingface.co/papers/1710.00421",
+    "title": "Video Generation From Text",
+    "date": "2017-10-01",
+    "source": "hf-search"
+  },
+  {
+    "n": 2,
+    "id": "2205.15868",
+    "url": "https://arxiv.org/abs/2205.15868",
+    "title": "CogVideo: Large-scale Pretraining for Text-to-Video Generation via Transformers",
+    "date": "2022-05-29",
+    "source": "arxiv"
+  },
+  {
+    "n": 3,
+    "id": "2304.08818",
+    "url": "https://huggingface.co/papers/2304.08818",
+    "title": "Align your Latents: High-Resolution Video Synthesis with Latent Diffusion Models",
+    "date": "2023-04-18",
+    "source": "hf-search"
+  },
+  {
+    "n": 4,
+    "id": "2210.02303",
+    "url": "https://huggingface.co/papers/2210.02303",
+    "title": "Imagen Video: High Definition Video Generation with Diffusion Models",
+    "date": "2022-10-05",
+    "source": "hf-search"
+  },
+  {
+    "n": 5,
+    "id": "2503.23377",
+    "url": "https://huggingface.co/papers/2503.23377",
+    "title": "JavisDiT: Joint Audio-Video Diffusion Transformer with Hierarchical Spatio-Temporal Prior Synchronization",
+    "date": "2025-03-30",
+    "source": "hf-search"
+  },
+  {
+    "n": 6,
+    "id": "2511.03334",
+    "url": "https://huggingface.co/papers/2511.03334",
+    "title": "UniAVGen: Unified Audio and Video Generation with Asymmetric Cross-Modal Interactions",
+    "date": "2025-11-05",
+    "source": "hf-search"
+  },
+  {
+    "n": 7,
+    "id": "2512.09299",
+    "url": "https://huggingface.co/papers/2512.09299",
+    "title": "VABench: A Comprehensive Benchmark for Audio-Video Generation",
+    "date": "2025-12-10",
+    "source": "hf-search"
+  },
+  {
+    "n": 8,
+    "id": "2412.07772",
+    "url": "https://arxiv.org/abs/2412.07772",
+    "title": "From Slow Bidirectional to Fast Autoregressive Video Diffusion Models",
+    "date": "2025-09-23",
+    "source": "web"
+  },
+  {
+    "n": 9,
+    "id": "1812.01717",
+    "url": "https://arxiv.org/abs/1812.01717",
+    "title": "Towards Accurate Generative Models of Video: A New Metric & Challenges",
+    "date": "2019-03-27",
+    "source": "web"
+  },
+  {
+    "n": 10,
+    "id": "2404.12391",
+    "url": "https://arxiv.org/abs/2404.12391",
+    "title": "On the Content Bias in Fréchet Video Distance",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 11,
+    "id": "VBench",
+    "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Huang_VBench_Comprehensive_Benchmark_Suite_for_Video_Generative_Models_CVPR_2024_paper.pdf",
+    "title": "VBench: Comprehensive Benchmark Suite for Video Generative Models",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 12,
+    "id": "Video-Bench",
+    "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Han_Video-Bench_Human-Aligned_Video_Generation_Benchmark_CVPR_2025_paper.html",
+    "title": "Video-Bench: Human-Aligned Video Generation Benchmark",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 13,
+    "id": "UVE-Bench",
+    "url": "https://proceedings.neurips.cc/paper_files/paper/2025/file/1874f129f231fad431dd40119e3bd6af-Paper-Datasets_and_Benchmarks_Track.pdf",
+    "title": "UVE: Are MLLMs Unified Evaluators for AI-Generated Videos?",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 14,
+    "id": "2610.12459",
+    "url": "https://huggingface.co/papers/2610.12459",
+    "title": "WorldGuide: Goal-Directed Video World Model for Procedural Task Execution",
+    "date": "2026-10-08",
+    "source": "hf-daily"
+  },
+  {
+    "n": 15,
+    "id": "2310.19512",
+    "url": "https://huggingface.co/papers/2310.19512",
+    "title": "VideoCrafter1: Open Diffusion Models for High-Quality Video Generation",
+    "date": "2023-10-30",
+    "source": "hf-search"
+  },
+  {
+    "n": 16,
+    "id": "2604.08121",
+    "url": "https://huggingface.co/papers/2604.08121",
+    "title": "Uni-ViGU: Towards Unified Video Generation and Understanding via A Diffusion-Based Video Generator",
+    "date": "2026-04-09",
+    "source": "hf-search"
+  },
+  {
+    "n": 17,
+    "id": "2406.07686",
+    "url": "https://huggingface.co/papers/2406.07686",
+    "title": "AV-DiT: Efficient Audio-Visual Diffusion Transformer for Joint Audio and Video Generation",
+    "date": "2024-06-11",
+    "source": "hf-search"
+  },
+  {
+    "n": 18,
+    "id": "2410.05203",
+    "url": "https://arxiv.org/html/2410.05203",
+    "title": "Beyond FVD: Enhanced Evaluation Metrics for Video Generation Quality",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 19,
+    "id": "2512.21094",
+    "url": "https://arxiv.org/abs/2512.21094",
+    "title": "T2AV-Compass: Towards Unified Evaluation for Text-to- ...",
+    "date": "",
+    "source": "web"
+  }
+]

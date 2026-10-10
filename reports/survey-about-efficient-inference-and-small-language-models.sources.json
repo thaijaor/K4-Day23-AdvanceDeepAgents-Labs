@@ -1,0 +1,82 @@
+[
+  {
+    "n": 1,
+    "id": "2404.14219",
+    "url": "https://arxiv.org/abs/2404.14219",
+    "title": "[2404.14219] Phi-3 Technical Report: A Highly Capable Language Model Locally on Your Phone",
+    "date": "2024-04-22",
+    "source": "web"
+  },
+  {
+    "n": 2,
+    "id": "2305.17888",
+    "url": "https://huggingface.co/papers/2305.17888",
+    "title": "LLM-QAT: Data-Free Quantization Aware Training for Large Language Models",
+    "date": "2023-05-29",
+    "source": "hf-search"
+  },
+  {
+    "n": 3,
+    "id": "2412.11629",
+    "url": "https://huggingface.co/papers/2412.11629",
+    "title": "QPruner: Probabilistic Decision Quantization for Structured Pruning in Large Language Models",
+    "date": "2024-12-16",
+    "source": "hf-search"
+  },
+  {
+    "n": 4,
+    "id": "2204.00408",
+    "url": "https://huggingface.co/papers/2204.00408",
+    "title": "Structured Pruning Learns Compact and Accurate Models",
+    "date": "2022-04-01",
+    "source": "hf-search"
+  },
+  {
+    "n": 5,
+    "id": "2607.08032",
+    "url": "https://arxiv.org/abs/2607.08032",
+    "title": "What to Keep, What to Forget: A Rate--Distortion View of Memory Compaction in LLMs and Agents",
+    "date": "2026-07-09",
+    "source": "arxiv"
+  },
+  {
+    "n": 6,
+    "id": "acm-slm-arch",
+    "url": "https://dl.acm.org/doi/10.1145/3830468",
+    "title": "SLM-Arch: Trade-off Analysis and Optimized Hardware Design for Small Language Models | ACM Transactions on Design Automation of Electronic Systems",
+    "date": "2025-12-08",
+    "source": "web"
+  },
+  {
+    "n": 7,
+    "id": "digitalcommons-slm-edge",
+    "url": "https://digitalcommons.kennesaw.edu/cgi/viewcontent.cgi?article=1600&context=cday",
+    "title": "GRP-134 Characterizing and Understanding the Performance of Small Language Models on Edge Devices",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 8,
+    "id": "emnlp-slm-bench",
+    "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/findings/2025.findings-emnlp.1165.pdf",
+    "title": "SLM-Bench: A Comprehensive Benchmark of Small Language Models on Environmental Impacts",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 9,
+    "id": "2409.15790",
+    "url": "https://arxiv.org/abs/2409.15790",
+    "title": "Small Language Models:Survey, Measurements, and Insights",
+    "date": "2025-02-26",
+    "source": "web"
+  },
+  {
+    "n": 10,
+    "id": "ijcai-efficiency-landscape",
+    "url": "https://www.ijcai.org/proceedings/2026/0627.pdf",
+    "title": "Mapping the Efficiency Landscape of Small Language Models",
+    "date": "",
+    "source": "web"
+  }
+]

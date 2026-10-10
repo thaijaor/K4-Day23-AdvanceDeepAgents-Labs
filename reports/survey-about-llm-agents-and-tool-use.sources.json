@@ -1,0 +1,98 @@
+[
+  {
+    "n": 1,
+    "id": "2210.03629",
+    "url": "https://arxiv.org/abs/2210.03629",
+    "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+    "date": "2023-03-10",
+    "source": "web"
+  },
+  {
+    "n": 2,
+    "id": "2302.04761",
+    "url": "https://arxiv.org/abs/2302.04761",
+    "title": "[2302.04761] Toolformer: Language Models Can Teach Themselves to Use Tools",
+    "date": "2023-02-09",
+    "source": "web"
+  },
+  {
+    "n": 3,
+    "id": "2512.23167",
+    "url": "https://huggingface.co/papers/2512.23167",
+    "title": "SPIRAL: Symbolic LLM Planning via Grounded and Reflective Search",
+    "date": "2025-12-29",
+    "source": "hf-search"
+  },
+  {
+    "n": 4,
+    "id": "2602.21320",
+    "url": "https://huggingface.co/papers/2602.21320",
+    "title": "Tool-R0: Self-Evolving LLM Agents for Tool-Learning from Zero Data",
+    "date": "2026-02-24",
+    "source": "hf-search"
+  },
+  {
+    "n": 5,
+    "id": "2601.22037",
+    "url": "https://arxiv.org/html/2601.22037v2",
+    "title": "Optimizing Agentic Workflows using Meta-tools",
+    "date": "2026-02-02",
+    "source": "web"
+  },
+  {
+    "n": 6,
+    "id": "2606.13663",
+    "url": "https://arxiv.org/abs/2606.13663",
+    "title": "HyperTool: Beyond Step-Wise Tool Calls for Tool-Augmented Agents",
+    "date": "2026-06-11",
+    "source": "web"
+  },
+  {
+    "n": 7,
+    "id": "codex-building-block-economy",
+    "url": "https://codex.danielvaughan.com/2026/07/19/building-block-economy-agent-native-tools-composable-services-codex-cli-developer-role-shift/",
+    "title": "The Building Block Economy: How Agent-Native Tools Are Reshaping What It Means to Build Software | Codex Knowledge Base",
+    "date": "2026-07-19",
+    "source": "web"
+  },
+  {
+    "n": 8,
+    "id": "52333694",
+    "url": "https://www.springerprofessional.de/from-benchmarks-to-deployment-a-comprehensive-review-of-agentic-/52333694",
+    "title": "From benchmarks to deployment: a comprehensive review of agentic AI evaluation | springerprofessional.de",
+    "date": "2026-04-24",
+    "source": "web"
+  },
+  {
+    "n": 9,
+    "id": "2601.11903",
+    "url": "https://arxiv.org/abs/2601.11903",
+    "title": "AEMA: Verifiable Evaluation Framework for Trustworthy and Controlled Agentic LLM Systems",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 10,
+    "id": "2610.11169",
+    "url": "https://huggingface.co/papers/2610.11169",
+    "title": "Skill Constellations: Tracing the Supply Chain of Agent Skills on GitHub",
+    "date": "2026-10-08",
+    "source": "hf-daily"
+  },
+  {
+    "n": 11,
+    "id": "2606.10749",
+    "url": "https://arxiv.org/abs/2606.10749",
+    "title": "[2606.10749] Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation",
+    "date": "2026-06-09",
+    "source": "web"
+  },
+  {
+    "n": 12,
+    "id": "tool-minimalism-agentpatterns",
+    "url": "https://agentpatterns.ai/tool-engineering/tool-minimalism/",
+    "title": "Tool Minimalism and High-Level Prompting",
+    "date": "",
+    "source": "web"
+  }
+]

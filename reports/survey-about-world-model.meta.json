@@ -1,0 +1,27 @@
+{
+  "topic": "survey about world model",
+  "model": "google/gemini-3.8-flash",
+  "elapsed_s": 1200.9,
+  "subagent_calls": 4,
+  "tool_calls": {
+    "write_todos": 6,
+    "task": 4,
+    "read_file": 9,
+    "write_file": 3,
+    "execute": 22
+  },
+  "tokens": {
+    "input": 2158365,
+    "output": 40740
+  },
+  "n_sources": 10,
+  "source_families": [
+    "arxiv",
+    "hf-search",
+    "web"
+  ],
+  "revision": {
+    "draft_sha256": "89eb445f314b31b31ad01234060514cb2c2156e5e572eb790541d93b00a3adc1",
+    "archived_discoveries": 176
+  }
+}

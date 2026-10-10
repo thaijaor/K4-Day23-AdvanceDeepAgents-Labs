@@ -1,0 +1,28 @@
+{
+  "topic": "survey about video and multimodal generation",
+  "model": "google/gemini-3.8-flash",
+  "elapsed_s": 1764.6,
+  "subagent_calls": 4,
+  "tool_calls": {
+    "write_todos": 7,
+    "task": 4,
+    "read_file": 9,
+    "write_file": 4,
+    "execute": 22
+  },
+  "tokens": {
+    "input": 2244691,
+    "output": 22127
+  },
+  "n_sources": 19,
+  "source_families": [
+    "arxiv",
+    "hf-daily",
+    "hf-search",
+    "web"
+  ],
+  "revision": {
+    "draft_sha256": "154c3e5dd044e85e6c824ce67651faa98905ce1b9fb6931f4361011631f3315f",
+    "archived_discoveries": 237
+  }
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "n": 1,
+    "id": "1811.04551",
+    "url": "https://arxiv.org/abs/1811.04551",
+    "title": "Learning Latent Dynamics for Planning from Pixels",
+    "date": "2018-11-12",
+    "source": "arxiv"
+  },
+  {
+    "n": 2,
+    "id": "1912.01603",
+    "url": "https://arxiv.org/abs/1912.01603",
+    "title": "Dream to Control: Learning Behaviors by Latent Imagination",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 3,
+    "id": "2010.02193",
+    "url": "https://arxiv.org/abs/2010.02193",
+    "title": "Mastering Atari with Discrete World Models",
+    "date": "2020-10-05",
+    "source": "arxiv"
+  },
+  {
+    "n": 4,
+    "id": "2301.04104",
+    "url": "https://arxiv.org/abs/2301.04104",
+    "title": "Mastering Diverse Domains through World Models",
+    "date": "2023-01-10",
+    "source": "arxiv"
+  },
+  {
+    "n": 5,
+    "id": "2405.12399",
+    "url": "https://arxiv.org/abs/2405.12399",
+    "title": "Diffusion for World Modeling:Visual Details Matter in Atari",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 6,
+    "id": "diamond-wm-project",
+    "url": "https://diamond-wm.github.io/",
+    "title": "DIAMOND",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 7,
+    "id": "dream-drift-repo",
+    "url": "https://github.com/iwillsolvehardestproblem/dream-drift",
+    "title": "iwillsolvehardestproblem/dream-drift",
+    "date": "",
+    "source": "web"
+  },
+  {
+    "n": 8,
+    "id": "2607.25337",
+    "url": "https://huggingface.co/papers/2607.25337",
+    "title": "Temporal-Distance JEPA: Plan-Aware Representation Learning for Latent World Model Predictive Control",
+    "date": "2026-07-28",
+    "source": "hf-search"
+  },
+  {
+    "n": 9,
+    "id": "2608.09381",
+    "url": "https://huggingface.co/papers/2608.09381",
+    "title": "JEPA-WAM: Learning Vision-Language-Action Policies with Joint-Embedding World Modeling",
+    "date": "2026-08-10",
+    "source": "hf-search"
+  },
+  {
+    "n": 10,
+    "id": "2206.14176",
+    "url": "https://arxiv.org/abs/2206.14176",
+    "title": "DayDreamer: World Models for Physical Robot Learning",
+    "date": "2022-06-28",
+    "source": "arxiv"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "topic": "survey about efficient inference and small language models",
+  "model": "google/gemini-3.8-flash",
+  "elapsed_s": 1850.1,
+  "subagent_calls": 6,
+  "tool_calls": {
+    "write_todos": 7,
+    "task": 6,
+    "read_file": 9,
+    "write_file": 4,
+    "execute": 31
+  },
+  "tokens": {
+    "input": 3259494,
+    "output": 31413
+  },
+  "n_sources": 10,
+  "source_families": [
+    "arxiv",
+    "hf-search",
+    "web"
+  ],
+  "revision": {
+    "draft_sha256": "c167d8b4388f1a555ac3292d8ef966d6101a9049bce4206da2652d052819ae1b",
+    "archived_discoveries": 218
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "topic": "survey about LLM agents and tool use",
+  "model": "google/gemini-3.8-flash",
+  "elapsed_s": 1625.2,
+  "subagent_calls": 4,
+  "tool_calls": {
+    "write_todos": 6,
+    "task": 4,
+    "read_file": 9,
+    "write_file": 9,
+    "execute": 37,
+    "glob": 1
+  },
+  "tokens": {
+    "input": 4094442,
+    "output": 33565
+  },
+  "n_sources": 12,
+  "source_families": [
+    "hf-daily",
+    "hf-search",
+    "web"
+  ],
+  "revision": {
+    "draft_sha256": "cb25afa6d39788a663e3491bc0a898378a1ead033fd80bd004e6445923af21d5",
+    "archived_discoveries": 179
+  }
+}
