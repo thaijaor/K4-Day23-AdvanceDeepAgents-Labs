@@ -1,109 +1,72 @@
-# Deep Research Agent (Deep Agents + Sandbox)
+# Deep Research Agent — Day 23
 
-Lab dựng một **hệ thống deep research đa tác tử**: người dùng chỉ cần nhập một chủ đề (ví dụ `survey about world model`), hệ thống tự lập kế hoạch, giao việc cho nhiều subagent, tìm tài liệu trên arXiv, Hugging Face và web, rồi viết một **báo cáo có trích dẫn**.
+Nguyễn Hồng Thái · `2A202602894` · GitHub: `thaijaor`
 
-Hình thức: **bài thực hành cá nhân**. Ngôn ngữ lập trình: Python 3.11 trở lên.
+Deep Agents lead delegates parallel research to isolated subagents, combines retrieved evidence, and writes an English survey with numbered citations. Source APIs run on the host; notes, report generation and citation validation run inside an ephemeral sandbox.
 
-## 1. Mục tiêu học tập
+## Setup (Windows PowerShell)
 
-Sau lab, bạn có thể:
+Requires Python 3.11+ and Docker Desktop with the Linux engine running.
 
-1. Dựng agent bằng thư viện Deep Agents (LangChain): công cụ (tool), system prompt, subagent, backend.
-2. Dùng **sandbox** (Daytona) làm không gian làm việc và nơi chạy mã cho agent; hiểu vì sao khóa API và công cụ mạng phải nằm ở phía host chứ không nằm trong sandbox.
-3. Viết công cụ gọi API ngoài **chịu được giới hạn tốc độ** (retry, backoff, jitter, `Retry-After`).
-4. Thiết kế quy trình đa tác tử: lead chia nhỏ câu hỏi, giao cho N researcher chạy song song, tổng hợp và kiểm tra trích dẫn.
-5. Tạo báo cáo có thể kiểm chứng: mọi khẳng định có `[n]` trỏ tới một nguồn có thật.
-
-## 2. Hệ thống làm gì
-
-```mermaid
-flowchart TD
-    U["python research.py &quot;survey about world model&quot;"] --> S["open_sandbox() - Daytona"]
-    S --> L["Lead agent: write_todos, chia N câu hỏi con"]
-    L -->|task x N, song song| R["researcher subagents"]
-    R --> T1["arxiv_search"]
-    R --> T2["hf_daily_papers / hf_search_papers"]
-    R --> T3["web_search / web_fetch (Exa MCP)"]
-    R --> N["ghi chú trong sandbox: /tmp/work/research/notes"]
-    N --> M["Lead gộp: sources.json + report.md"]
-    M --> F["execute: finalize_citations.py (có sẵn)"]
-    F --> V["execute: check_citations.py"]
-    V --> C["citation-checker subagent kiểm tra mẫu"]
-    C --> D["download -> reports/slug.md, .sources.json, .meta.json"]
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+Copy-Item .env.example .env
 ```
 
-Nguồn dữ liệu:
+Set these variables in `.env` for an OpenAI-compatible endpoint (including Gemini's compatible endpoint):
 
-| Nguồn | Dùng để |
-|---|---|
-| arXiv API `https://export.arxiv.org/api/query` | Tìm bài theo từ khóa, sắp theo ngày |
-| Hugging Face Daily Papers `/api/daily_papers` | Bài đang "trending": upvotes, githubRepo, summary |
-| Hugging Face papers search `/api/papers/search?q=` | Tìm bài theo chủ đề |
-| Web qua Exa MCP (`web_search_exa`, `web_fetch_exa`) | Blog, survey, trang dự án, nội dung đầy đủ của một URL |
-
-## 3. Cấu trúc thư mục
-
-```
-Lab/
-├── README.md  GUIDE.md  RUBRIC.md  REPORT_TEMPLATE.md   tài liệu
-├── topics.md                 5 chủ đề cần chạy
-├── requirements.txt  .env.example  .gitignore
-├── model.py                  CÓ SẴN - không sửa: tạo mô hình LLM từ biến môi trường
-├── sandbox.py                CÓ SẴN - không sửa: sandbox Daytona (hoặc Docker), upload, download
-├── self_check.py             CÓ SẴN - không sửa: tự kiểm tra trước khi nộp (python self_check.py)
-├── finalize_citations.py     CÓ SẴN - không sửa: script chạy trong sandbox, tự sinh `## References` và đánh số lại trích dẫn
-├── tools.py                  SINH VIÊN CÀI ĐẶT: retry + 5 công cụ nguồn dữ liệu
-├── agents.py                 SINH VIÊN CÀI ĐẶT: prompt, subagent, lead agent
-├── research.py               SINH VIÊN CÀI ĐẶT: script chính
-├── check_citations.py        SINH VIÊN CÀI ĐẶT: kiểm tra trích dẫn, chạy TRONG sandbox
-└── reports/                  báo cáo sinh ra (bạn commit vào repo nộp)
+```dotenv
+LAB_BASE_URL=<OpenAI-compatible endpoint>
+LAB_MODEL=<tool-calling model name>
+LAB_API_KEY=<your LLM key>
+SANDBOX=docker
+SANDBOX_IMAGE=python:3.12-slim
+EXA_API_KEY=<your Exa key>
+LAB_REQUESTS_PER_MINUTE=10
+LAB_INPUT_TOKENS_PER_MINUTE=160000
 ```
 
-Mỗi tệp "SINH VIÊN CÀI ĐẶT" là **pseudo-code chạy được** (import được): các hàm có docstring mô tả việc cần làm, các `TODO n` đánh số theo `GUIDE.md`, thân hàm đang `raise NotImplementedError`.
+The shared course variables map as follows: `OPENAI_BASE_URL` → `LAB_BASE_URL`, `OPENAI_MODEL` → `LAB_MODEL`, `OPENAI_API_KEY` → `LAB_API_KEY`. `model.py` reads the `LAB_*` variables. No Daytona key is needed with Docker. `LAB_REQUESTS_PER_MINUTE` shares pacing across lead/subagents; choose below your provider quota (0 disables pacing). `LAB_INPUT_TOKENS_PER_MINUTE` adds a shared rolling token window; the adapter also respects quota cooldowns. Exa works without a key but is quickly rate limited. `.env` is ignored by git; keys remain on the host.
 
-## 4. Cài đặt
+Alternatively, use the provider configuration in `.env.example`, or `SANDBOX=daytona` with `DAYTONA_API_KEY`.
 
-```bash
-python3 -m venv .venv && source .venv/bin/activate      # Python 3.11+
-pip install -r requirements.txt
-cp .env.example .env                                     # rồi điền khóa CỦA BẠN
+For Vertex AI, set `LAB_VERTEX_CREDENTIALS` to a service-account JSON path on the host, `LAB_VERTEX_PROJECT`, `LAB_VERTEX_LOCATION=global`, and `LAB_MODEL=google/<compatible Gemini model>`. Leave `LAB_API_KEY` blank. `vertex_auth.py` configures the OpenAI-compatible endpoint and supplies an OAuth callback that refreshes expired tokens automatically. Neither credentials nor access tokens are uploaded to the sandbox. See [Google's OpenAI compatibility guide](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/start/openai).
+
+Optional `LAB_RESEARCH_MODEL` and `LAB_CHECKER_MODEL` select separate tool-calling models for the two subagent roles using the same endpoint/key. Unset them to inherit the lead model. Metadata records configured role overrides; each model's provider quota still applies.
+
+## Run
+
+```powershell
+.\.venv\Scripts\python.exe tools.py
+.\.venv\Scripts\python.exe research.py "survey about world model"
+.\.venv\Scripts\python.exe run_topics.py
+.\.venv\Scripts\python.exe -m unittest -v test_lab
+.\.venv\Scripts\python.exe self_check.py
 ```
 
-Bạn cần ba loại khóa (điền vào `.env`, **không bao giờ commit** `.env`):
+For QA corrections, run `research.py "<topic>" --feedback-file feedback.txt`; it revises an archived report when available, or starts a fresh research run otherwise. Add `--fresh` to force regeneration. Reports are never manually edited.
 
-| Khóa | Lấy ở đâu | Ghi chú |
-|---|---|---|
-| LLM (`LAB_MODEL` + khóa nhà cung cấp) | Nhà cung cấp bạn chọn (OpenAI, Anthropic, Google, OpenRouter, Ollama...) | Mô hình **phải hỗ trợ tool calling**. Chép tên mô hình từ tài liệu của nhà cung cấp. |
-| `DAYTONA_API_KEY` | https://app.daytona.io | Kiểm tra gói miễn phí / credit hiện hành. Không có tài khoản hoặc hết credit: đặt `SANDBOX=docker` để chạy sandbox trong container Docker cục bộ (xem `.env.example`). |
-| `EXA_API_KEY` (khuyến nghị) | https://dashboard.exa.ai/api-keys | Có thể chạy không khóa, nhưng bản miễn phí của MCP bị giới hạn tốc độ rất nhanh. |
+To revise an existing system-generated draft, add `--draft reports/<slug>.md`. This requires its `.sources.json` and `.provenance.json` discovery archive. The agent verifies claim clusters again and edits the draft inside the sandbox; original discovery labels are retained from the archive. Revision metadata records the input draft hash; call/token counts and elapsed time describe the current revision only.
 
-## 5. Làm bài
+Run each of the five topics in [topics.md](topics.md). Outputs in `reports/`:
 
-Làm theo thứ tự (chi tiết trong `GUIDE.md`):
+- `<slug>.md`: survey (TL;DR, Background, thematic comparisons, Trends and open problems, References).
+- `<slug>.sources.json`: numbered sources with discovery labels and URLs.
+- `<slug>.meta.json`: topic/model, elapsed time, delegation/tool counts, lead token usage, and source families.
+- `<slug>.audit.md`: citation-checker verdicts downloaded from the sandbox.
+- `<slug>.provenance.json`: archived metadata from actual source discoveries, used for revisions.
 
-1. `check_citations.py`: khởi động nhẹ, thuần Python.
-2. `tools.py`: viết `with_retry` và 5 công cụ. Thử riêng từng công cụ: `python tools.py`.
-3. `agents.py`: viết prompt, subagent và lead agent.
-4. `research.py`: ghép tất cả; chạy một chủ đề:
+Validate one report with:
 
-```bash
-python research.py "survey about world model"
+```powershell
+.\.venv\Scripts\python.exe check_citations.py reports/survey-about-world-model.md reports/survey-about-world-model.sources.json
 ```
 
-Kết quả nằm ở `reports/survey-about-world-model.md` cùng `.sources.json` và `.meta.json`.
+## Implementation
 
-## 6. Chủ đề và nộp bài
+`tools.py` implements arXiv, Hugging Face Daily/Search and Exa Search/Fetch with bounded retries, `Retry-After`, jitter, arXiv pacing, and secret redaction. `agents.py` defines the lead, researchers and citation checker, with model/tool limits for each. `openai_adapter.py` preserves provider tool-call metadata (including Gemini thought signatures) through the pinned LangChain adapter, using its OpenAI SDK client. `research.py` manages sandbox lifetime, uploads validation scripts, validates outputs before saving, and records actual lead message counts. `check_citations.py` verifies source IDs, URLs, body citations and one matching reference per source, excluding code and Markdown links.
 
-- Chạy đủ **5 chủ đề** trong [`topics.md`](topics.md), mỗi chủ đề một lần.
-- Commit mã nguồn và toàn bộ `reports/`, đẩy lên một **public repo** GitHub và nộp link.
-- Kiểm tra trước khi nộp: chạy **`python self_check.py`** (không tốn token): nó kiểm tra đủ 5 báo cáo, `meta.json`, trích dẫn bằng `check_citations.py` của bạn, và không có `.env`/khóa nào trong git.
-- Cách chấm: xem [`RUBRIC.md`](RUBRIC.md).
+`normalize_sources.py` deterministically restores labels, canonical URLs and dates from actual discoveries inside the sandbox; unresolved sources must be researched or removed by the agent. Reports and sources are downloaded unchanged. The provided finalizer and student validator run inside the sandbox before download. Lead token counts exclude subagent usage. Each run is bounded at 100 model / 200 tool calls for lead; researchers at 40 / 60 and checker at 25 / 40, with lead recursion limit 1000. When genuine source-family coverage is insufficient, the host retrieves relevant Web, HF Search or HF Daily candidates for the agent to evaluate in the sandbox. Trusted helper scripts are reuploaded before each host validation gate, preventing agent edits from bypassing checks. The final sandbox gate checks discovery provenance, requires 3-6 thematic sections, rejects bodies under 800 words, and allows at most two agent repair passes; each pass retains the same limits.
 
-## 7. Thời gian, chi phí và an toàn
-
-- Dùng một mô hình **rẻ nhưng hỗ trợ tool calling**, và **đặt giới hạn** (số lần gọi mô hình/công cụ cho lead và subagent, `recursion_limit`): một prompt hỏng có thể khiến agent lặp rất lâu. Đây là hạng mục 2.5 của `RUBRIC.md`.
-- Kết quả có tính ngẫu nhiên: cùng một mã có thể cho báo cáo hợp lệ ở lần này và trích dẫn lỗi ở lần sau. Hãy sửa **prompt và mã**, không sửa tay báo cáo.
-
-- Mỗi lần chạy tốn token LLM và thời gian sandbox. `tokens` trong `meta.json` chỉ đếm tin nhắn của lead, chưa gồm subagent, nên chi phí thật cao hơn. `open_sandbox()` luôn dừng và xóa sandbox khi kết thúc, kể cả khi lỗi. Đừng bỏ qua nó.
-- **Không đưa bí mật vào sandbox.** Sandbox không ngăn được prompt injection hay việc đẩy dữ liệu ra mạng; một trang web độc hại có thể khiến agent chạy lệnh bên trong sandbox. Vì vậy mọi công cụ gọi mạng và mọi khóa ở lại phía host.
-- Nội dung lấy từ web là **dữ liệu không đáng tin**: agent không được làm theo chỉ dẫn nằm trong đó.
+Assignment details: [GUIDE.md](GUIDE.md), [RUBRIC.md](RUBRIC.md), [REPORT_TEMPLATE.md](REPORT_TEMPLATE.md).
